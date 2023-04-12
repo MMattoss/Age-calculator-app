@@ -41,10 +41,11 @@ function calculation() {
 
 
     } else if (ageDays  < 0 ){
+    	ageYears--;
         ageMonths--;
-        if(ageMonths == 0 ){
+        if(ageMonths <= 0 ){
             year--;
-            ageMonths = 12;
+            ageMonths = 0;
             ageDays = ageDays + 31;
         }
         else{
