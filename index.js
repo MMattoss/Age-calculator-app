@@ -15,17 +15,6 @@ const currentMonth = currentDate.getMonth() + 1;
 const currentYear = currentDate.getFullYear();
 
 
-
-
-$('button').click(function () {
-	assignValues();
-	checkLeapYear(selectedYear);
-	fieldVerification();
-	proceedValuesVerification();
-})
-
-
-
 function calculation() {
 	var bornDate = new Date(selectedYear, selectedMonth, selectedDay);
 	var ageYears = Math.floor(currentYear - bornDate.getFullYear());
@@ -67,8 +56,6 @@ function calculation() {
 	$('.days-result').text(ageDays);
 }
 
-
-
 function assignValues() {
 	selectedDay = $('#day').val();
 	selectedMonth = $('#month').val();
@@ -77,6 +64,90 @@ function assignValues() {
 	selectedDay = Math.floor(selectedDay);
 	selectedMonth = Math.floor(selectedMonth);
 	selectedYear = Math.floor(selectedYear);
+}
+
+//Day verifications
+function leapFebruaryVerification() {
+
+	if (selectedDay < 1 || selectedDay > 29) {
+		$('#day-alert').text('Must be a valid day.');
+	}
+
+	else{
+		$('#day-alert').text('');
+		if (selectedYear === currentYear & selectedMonth === currentMonth & selectedDay > currentDay) {
+			$('#day-alert').text('Must in the past.');
+		}
+
+		else{
+			$('#day-alert').text('');
+			monthLength = 29;
+			calculation();
+		}
+	}
+}
+
+
+
+function notLeapFebruaryVerification() {
+	if (selectedDay < 1 || selectedDay > 28) {
+		$('#day-alert').text('Must be a valid day.');
+	}
+
+	else{
+		$('#day-alert').text('');
+		if (selectedYear === currentYear & selectedMonth === currentMonth & selectedDay > currentDay) {
+			$('#day-alert').text('Must be in the past.');
+		}
+
+		else{
+			$('#day-alert').text('');
+			monthLength = 28;
+			calculation();
+		}
+	}
+}
+
+
+
+function dayVerificationOddMonth() {
+	if (selectedDay < 1 || selectedDay > 31) {
+		$('#day-alert').text('Must be a valid day.');
+	}
+
+	else{
+		$('#day-alert').text('');
+		if (selectedYear === currentYear & selectedMonth === currentMonth & selectedDay > currentDay) {
+			$('#day-alert').text('Must be in the past.');
+		}
+
+		else{
+			$('#day-alert').text('');
+			monthLength = 31;
+			calculation();
+		}
+	}
+}
+
+
+
+function dayVerificationEvenMonth() {
+	if (selectedDay < 1 || selectedDay > 30) {
+		$('#day-alert').text('Must be a valid day.');
+	}
+
+	else{
+		$('#day-alert').text('');
+		if (selectedYear === currentYear & selectedMonth === currentMonth & selectedDay > currentDay) {
+			$('#day-alert').text('Must be in the past.');
+		}
+
+		else{
+			$('#day-alert').text('');
+			monthLength = 30;
+			calculation();
+		}
+	}
 }
 
 
@@ -192,87 +263,11 @@ function monthVerification() {
 }
 
 
-
-//Day verifications
-function leapFebruaryVerification() {
-
-	if (selectedDay < 1 || selectedDay > 29) {
-		$('#day-alert').text('Must be a valid day.');
-	}
-
-	else{
-		$('#day-alert').text('');
-		if (selectedYear === currentYear & selectedMonth === currentMonth & selectedDay > currentDay) {
-			$('#day-alert').text('Must in the past.');
-		}
-
-		else{
-			$('#day-alert').text('');
-			monthLength = 29;
-			calculation();
-		}
-	}
-}
+$('button').click(function () {
+	assignValues();
+	checkLeapYear(selectedYear);
+	fieldVerification();
+	proceedValuesVerification();
+})
 
 
-
-function notLeapFebruaryVerification() {
-	if (selectedDay < 1 || selectedDay > 28) {
-		$('#day-alert').text('Must be a valid day.');
-	}
-
-	else{
-		$('#day-alert').text('');
-		if (selectedYear === currentYear & selectedMonth === currentMonth & selectedDay > currentDay) {
-			$('#day-alert').text('Must be in the past.');
-		}
-
-		else{
-			$('#day-alert').text('');
-			monthLength = 28;
-			calculation();
-		}
-	}
-}
-
-
-
-function dayVerificationOddMonth() {
-	if (selectedDay < 1 || selectedDay > 31) {
-		$('#day-alert').text('Must be a valid day.');
-	}
-
-	else{
-		$('#day-alert').text('');
-		if (selectedYear === currentYear & selectedMonth === currentMonth & selectedDay > currentDay) {
-			$('#day-alert').text('Must be in the past.');
-		}
-
-		else{
-			$('#day-alert').text('');
-			monthLength = 31;
-			calculation();
-		}
-	}
-}
-
-
-
-function dayVerificationEvenMonth() {
-	if (selectedDay < 1 || selectedDay > 30) {
-		$('#day-alert').text('Must be a valid day.');
-	}
-
-	else{
-		$('#day-alert').text('');
-		if (selectedYear === currentYear & selectedMonth === currentMonth & selectedDay > currentDay) {
-			$('#day-alert').text('Must be in the past.');
-		}
-
-		else{
-			$('#day-alert').text('');
-			monthLength = 30;
-			calculation();
-		}
-	}
-}
