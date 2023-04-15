@@ -1,64 +1,78 @@
 var selectedDay;
 var selectedMonth;
 var selectedYear;
-var monthLength;
-
 
 var isLeap = false;
 var yearField = false;
 var monthField = false;
 var dayField = false;
 var oddMonths = [1,3,5,7,8,10,12]
+
 const currentDate = new Date();
 const currentDay = currentDate.getDate();
 const currentMonth = currentDate.getMonth() + 1;
 const currentYear = currentDate.getFullYear();
+const monthLength = new Date(currentYear, currentMonth, 0).getDate();
 
+var userBornDate = new Date(selectedYear, selectedMonth, selectedDay);
+var userBornDay = userBornDate.getDate();
+var userBornMonth = userBornDate.getMonth() + 1;
+var userBornYear = userBornDate.getFullYear();
+
+var ageMonthLength;
 
 
 
 function calculation() {
-	var bornDate = new Date(selectedYear, selectedMonth, selectedDay);
-	var ageYears = Math.floor(currentYear - bornDate.getFullYear());
-	var ageMonths = Math.floor(currentMonth - (bornDate.getMonth()));
-	var ageDays = Math.floor(currentDay - bornDate.getDate());
-
-    if(ageMonths < 0){
-
-        ageYears--;
-
-        if(ageDays < 0){
-
-            ageMonths = ageMonths + 12;
-            ageDays = ageDays + monthLength;
-
-        }
-        else if (ageDays === 0){
-
-            ageMonths = ageMonths + 12;
-
-        }
-
-
-    } else if (ageDays  < 0 ){
-    	ageYears--;
-        ageMonths--;
-        if(ageMonths <= 0 ){
-            year--;
-            ageMonths = 0;
-            ageDays = ageDays + 31;
-        }
-        else{
-        	ageDays = ageDays + monthLength;
-        }
-    }
-
-
-	$('.years-result').text(ageYears);
-	$('.months-result').text(ageMonths);
-	$('.days-result').text(ageDays);
+	
+		var ageDay = currentDay - selectedDay;
+		var ageMonth = currentMonth - selectedMonth;
+		var ageYear = currentYear - selectedYear;
+		
+		
+		if (ageMonth < 0) {
+			
+		   ageYear--;
+		  
+			if (ageDay < 0) {
+				
+				ageMonth--;
+				ageMonth = ageMonth + 12;
+				tamanhoMêsReduzido(selectedYear, ageMonth);
+				ageDay = ageDay + ageMonthLength;
+				console.log(ageDay);
+			}
+			else  {
+				
+				ageMonth = ageMonth + 12;
+			}
+		}	else if (ageDay < 0) {
+			
+			ageMonth--;
+			
+			if(ageMonth < 0) {
+				ageYear--;
+				ageMonth = ageMonth + 12;
+				tamanhoMêsReduzido(selectedYear, ageMonth+1);
+				ageDay = ageDay + ageMonthLength;
+				
+			}
+			else {
+				tamanhoMêsReduzido(selectedYear, ageMonth+1);
+				ageDay = ageDay + ageMonthLength;
+			}
+		}
+	
+		console.log(ageYear +'\n' + ageMonth + '\n' + ageDay)
+  	$('.years-result').text(ageYear);
+  	$('.months-result').text(ageMonth);
+  	$('.days-result').text(ageDay);
 }
 
+
+function  tamanhoMêsReduzido(ano,mes) {
+	ageMonthLength = new Date (ano, (mes), 0).getDate();
+}
 
 
 function assignValues() {
@@ -177,7 +191,6 @@ function leapFebruaryVerification() {
 
 		else{
 			$('#day-alert').text('');
-			monthLength = 29;
 			calculation();
 		}
 	}
@@ -198,7 +211,6 @@ function notLeapFebruaryVerification() {
 
 		else{
 			$('#day-alert').text('');
-			monthLength = 28;
 			calculation();
 		}
 	}
@@ -219,7 +231,6 @@ function dayVerificationOddMonth() {
 
 		else{
 			$('#day-alert').text('');
-			monthLength = 31;
 			calculation();
 		}
 	}
@@ -240,7 +251,6 @@ function dayVerificationEvenMonth() {
 
 		else{
 			$('#day-alert').text('');
-			monthLength = 30;
 			calculation();
 		}
 	}
@@ -266,6 +276,8 @@ function monthVerification() {
 		dayVerificationEvenMonth();
 	}
 }
+
+
 
 $('.btn-desktop').click(function () {
 	assignValues();
