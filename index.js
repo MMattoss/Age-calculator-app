@@ -293,3 +293,15 @@ $('.btn-mobile').click(function () {
 	fieldVerification();
 	proceedValuesVerification();
 })
+
+$('input').keydown(function (event) {
+	console.log(event);
+	if (event.keyCode == 13) {
+		event.preventDefault();
+		assignValues();
+		checkLeapYear(selectedYear);
+		fieldVerification();
+		proceedValuesVerification();
+	}
+});
+
